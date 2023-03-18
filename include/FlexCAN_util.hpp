@@ -11,8 +11,11 @@
 // global wrapper around flexcan_t4 because it is a shit driver that should feel bad
 
 void init_can();
+
 int WriteCAN(CAN_message_t &msg);
 int ReadCAN(CAN_message_t &msg);
+
+void load_can(CAN_message_t tx_msg, uint32_t id, bool extended, uint8_t buf[]);
 
 //int ReadCAN(CAN_message_t &msg);
 

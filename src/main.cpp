@@ -4,50 +4,44 @@
 #include "FlexCAN_util.hpp"
 
 
+CAN_message_t msg;
+
+uint8_t buf[] = {0x34, 0x10, 0xff, 0xab, 0x24, 0x40, 0x100, 0x29};
+    
 
 
-
-int main(void)
+void setup()
 {
 
+    Serial1.begin(9600);
 
-    CAN_message_t msg;
-
-
-    msg.id = 0x100;
-    msg.len = 8;
-    // msg.flags.extended = 0;
-    // msg.flags.remote   = 0;
-    // msg.flags.overrun  = 0;
-    // msg.flags.reserved = 0;
-    msg.buf[0] = 10;
-    msg.buf[1] = 20;
-    msg.buf[2] = 0;
-    msg.buf[3] = 100;
-    msg.buf[4] = 128;
-    msg.buf[5] = 64;
-    msg.buf[6] = 32;
-    msg.buf[7] = 16;
-
-
+    load_can(msg, 0x10, false, buf);
 
     pinMode(25, INPUT);
 
-    init_can();
+    pinMode(13, OUTPUT);
 
+    //while(!Serial1);
 
+}
 
-    while(true)
+void loop()
+{
+
+    if (digitalRead(25) == 1)
     {
 
-        msg.buf[0]++;
+        digitalWrite(13, HIGH);
 
-        WriteCAN(msg);
+        for (uint8_t i = 0; i < sizeof((int)buf); i++)
+        {
 
+            Serial1.print(buf[i]);
 
-       
-        delay(20);
+        }
 
-    }
+    } else digitalWrite(13, LOW);
+
+    
 
 }
