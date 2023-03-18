@@ -1,0 +1,24 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"name": "CAN_Helper",
+			"path": "../CAN_Helper"
+		},
+		{
+			"name": "CAN_custom_RX_TX",
+			"path": "../CAN_custom_RX_TX"
+		},
+		{
+			"name": "CAN_Test",
+			"path": "../CAN_Test"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"*.tpp": "cpp"
+		}
+	}
+}
