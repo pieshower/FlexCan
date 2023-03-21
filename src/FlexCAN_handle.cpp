@@ -4,7 +4,7 @@
 
 
 
-FlexCAN_T4<CAN2, RX_SIZE_256, TX_SIZE_16> Inverter_CAN_;
+FlexCAN_T4<CAN1, RX_SIZE_256, TX_SIZE_16> Inverter_CAN_;
 
 
 
@@ -30,8 +30,7 @@ void init_can()
 
     }
 
-
-    //Inverter_CAN_.mailboxStatus();
+    Inverter_CAN_.mailboxStatus();
 
 }
 
@@ -52,21 +51,34 @@ int WriteCAN(CAN_message_t &msg)
 }
 
 
-void load_can(CAN_message_t tx_msg, uint32_t id, bool extended, uint8_t buf[])
+int load_can(uint32_t id, bool extended, uint8_t buf[])
 {
 
-    //CAN_message_t tx_msg;
+    CAN_message_t tx_msg;
 
     tx_msg.id = id;
     tx_msg.flags.extended = extended;
+    tx_msg.seq = true;
 
-    for (int i = 0; i < 8; i++)
+    //memcpy(&tx_msg.buf[0], &buf, tx_msg.len);
+
+    for(uint8_t i = 0; i < tx_msg.len; i++)
     {
 
-        memcpy(&tx_msg.buf[i], &buf, sizeof((int)buf));
+        tx_msg.buf[i] = buf[i];
 
     }
+
     
-    //return WriteCAN(tx_msg);
+    return WriteCAN(tx_msg);
+
+}
+
+
+
+void CANevents()
+{
+
+    Inverter_CAN_.events();
 
 }

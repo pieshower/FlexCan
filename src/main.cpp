@@ -4,24 +4,20 @@
 #include "FlexCAN_util.hpp"
 
 
-CAN_message_t msg;
 
-uint8_t buf[] = {0x34, 0x10, 0xff, 0xab, 0x24, 0x40, 0x100, 0x29};
+uint8_t buf[] = {0, 10, 0, 0, 0, 0, 0, 10};
     
-
+void heartBeat();
 
 void setup()
 {
 
-    Serial1.begin(9600);
-
-    load_can(msg, 0x10, false, buf);
-
+    pinMode(13, OUTPUT);
     pinMode(25, INPUT);
 
-    pinMode(13, OUTPUT);
+    init_can();
 
-    //while(!Serial1);
+    load_can(0x10, false, buf);
 
 }
 
@@ -31,17 +27,28 @@ void loop()
     if (digitalRead(25) == 1)
     {
 
-        digitalWrite(13, HIGH);
+        //CANevents();
+        //load_can(0x10, false, buf);
 
-        for (uint8_t i = 0; i < sizeof((int)buf); i++)
-        {
+    }
 
-            Serial1.print(buf[i]);
+    //CANevents();
 
-        }
+    //load_can(0x10, false, buf);
 
-    } else digitalWrite(13, LOW);
-
+    heartBeat();
     
+}
+
+void heartBeat()
+{
+
+    digitalWrite(13, HIGH);
+
+    delay(1000);
+
+    digitalWrite(13, LOW);
+
+    delay(1000);
 
 }
